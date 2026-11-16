@@ -1,0 +1,4 @@
+node_modules/
+resq-wheels.sqlite
+resq-wheels.sqlite-shm
+resq-wheels.sqlite-wal

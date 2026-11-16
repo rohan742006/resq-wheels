@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResQ Wheels — Premium Roadside Assistance Marketplace</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛞</text></svg>">
+</head>
+<body class="auth-required">
+  <main class="auth-screen" id="auth-screen">
+  <div class="auth-layout">
+    <section class="auth-showcase" aria-label="About ResQ Wheels">
+      <a href="#" class="auth-brand" aria-label="ResQ Wheels">
+        <span class="brand-icon-box">🛞</span>
+        <span>ResQ Wheels</span>
+      </a>
+      <p class="auth-eyebrow">Roadside help, made local</p>
+      <h2>Get back on the road with the right help.</h2>
+      <p class="auth-showcase-copy">
+        Find registered roadside providers near you, or manage your service business from one place.
+      </p>
+      <div class="auth-trust-card">
+        <span class="auth-trust-icon" aria-hidden="true">⌖</span>
+        <div>
+          <strong>Location-aware service</strong>
+          <p>Nearby providers appear when they register and share their service area.</p>
+        </div>
+      </div>
+      <div class="auth-audience-list" aria-label="Available account types">
+        <span>Customer</span>
+        <span>Service provider</span>
+        <span>Administrator</span>
+      </div>
+    </section>
+
+    <section class="auth-card" aria-labelledby="auth-title">
+      <p class="auth-eyebrow">Your ResQ Wheels account</p>
+      <h1 id="auth-title">Welcome back</h1>
+      <p class="auth-description">Choose your account type to continue.</p>
+
+      <div class="auth-role-selector" role="group" aria-label="Account type">
+        <button type="button" class="auth-role active" data-auth-role="user" aria-pressed="true">Customer</button>
+        <button type="button" class="auth-role" data-auth-role="provider" aria-pressed="false">Provider</button>
+        <button type="button" class="auth-role" data-auth-role="admin" aria-pressed="false">Admin</button>
+      </div>
+      <div class="auth-mode-selector" id="auth-mode-selector" role="group" aria-label="Sign-in option">
+        <button type="button" class="active" data-auth-mode="login" aria-pressed="true">Sign in</button>
+        <button type="button" data-auth-mode="signup" aria-pressed="false">Create account</button>
+      </div>
+
+      <form id="auth-form" class="auth-form">
+        <label id="auth-name-label" class="auth-field" hidden>
+          <span>Full name</span>
+          <input type="text" id="auth-name" autocomplete="name" maxlength="100">
+        </label>
+        <label id="auth-phone-label" class="auth-field" hidden>
+          <span>Phone number</span>
+          <input type="tel" id="auth-phone" autocomplete="tel" maxlength="30">
+        </label>
+        <label class="auth-field">
+          <span>Email address</span>
+          <input type="email" id="auth-email" required autocomplete="email" maxlength="254">
+        </label>
+        <label class="auth-field">
+          <span>Password</span>
+          <input type="password" id="auth-password" required autocomplete="current-password" minlength="10" maxlength="128">
+        </label>
+        <p class="auth-feedback" id="auth-feedback" role="alert" hidden></p>
+        <button type="submit" class="auth-submit" id="auth-submit">Continue securely</button>
+      </form>
+      <p class="auth-note" id="auth-note">Your account is protected with secure sign-in.</p>
+      <a class="auth-support-link" href="https://wa.me/919404819359" target="_blank" rel="noopener noreferrer">
+        Need help? Chat with ResQ Wheels support
+      </a>
+    </section>
+  </div>
+  </main>
+
+  <!-- Header & Navigation Bar (Exact Match to Design) -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="#home" class="brand-logo" data-view="home">
+        <div class="brand-icon-box">
+          <!-- Tow Truck Icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+            <path d="M15 18H9"></path>
+            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+            <circle cx="7" cy="18" r="2"></circle>
+            <circle cx="17" cy="18" r="2"></circle>
+          </svg>
+        </div>
+        <span>ResQ Wheels</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#home" class="nav-link active" data-view="home">Home</a></li>
+        <li><a href="#services" class="nav-link" data-view="providers">Services</a></li>
+        <li><a href="#find-providers" class="nav-link" data-view="providers">Find Providers</a></li>
+        <li data-role-only="user"><a href="#track-booking" class="nav-link" data-view="track">Track Booking</a></li>
+        <li data-role-only="user"><a href="#dashboard" class="nav-link" data-view="dashboard">Dashboard</a></li>
+        <li data-role-only="provider"><a href="#provider" class="nav-link" data-view="provider">Provider portal</a></li>
+        <li data-role-only="admin"><a href="#admin" class="nav-link" data-view="admin">Admin portal</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn-partner-register" id="btn-open-partner-reg" style="font-size: 13px; font-weight: 600; color: #111827; border: 1px solid #D1D5DB; padding: 7px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; background: #FFF;">
+          <span>🏢</span> Register Service Center
+        </button>
+        <button class="btn-login" id="btn-user-logout" type="button" style="display: inline-flex; align-items: center; gap: 6px;">
+          <span id="nav-user-name"></span> <span>Sign out</span>
+        </button>
+        <button class="btn-assistance open-emergency-btn">Get Assistance</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       VIEW 1: HOME PAGE (Matches Left Pane of Reference Image)
+       ========================================================================= -->
+  <main class="main-wrapper app-view" id="view-home">
+    
+    <!-- Hero Card -->
+    <section class="home-hero-card">
+      <div class="hero-left">
+        <h1 class="hero-title">
+          Stranded on the Road?<br>
+          Help Is Closer Than<br>
+          You Think.
+        </h1>
+        <p class="hero-subtitle">
+          Find registered roadside service providers near you.
+        </p>
+
+        <!-- Search Box -->
+        <div class="hero-search-box">
+          <div class="hero-search-input-row">
+            <span class="search-icon">📍</span>
+            <input type="text" id="hero-location-input" class="search-input" autocomplete="street-address" placeholder="Enter your location or use GPS">
+            <button type="button" class="btn-current-loc" id="btn-use-current-loc">↗ Use current location</button>
+          </div>
+          <div class="hero-buttons-row">
+            <button type="button" class="btn-hero-primary open-emergency-btn" id="btn-hero-emergency">Get Roadside Help</button>
+            <button type="button" class="btn-hero-secondary" data-view="providers" id="btn-hero-search">Explore Services</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-image-wrapper">
+          <img src="/images/hero_car.jpg" alt="Roadside breakdown assistance" onerror="this.src='/images/crop_hero.jpg'">
+          <div class="hero-image-overlay">
+            <span>● Location-aware roadside assistance</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 Quick Service Category Cards -->
+    <section class="services-quick-row">
+      <div class="service-quick-card" data-category="puncture-repair">
+        <div class="service-quick-icon">
+          <!-- Wheel/Tyre Icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="4"></circle>
+            <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+            <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+            <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line>
+            <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"></line>
+          </svg>
+        </div>
+        <div class="service-quick-title">Puncture Repair</div>
+        <div class="service-quick-price">from Rs 150</div>
+      </div>
+
+      <div class="service-quick-card" data-category="battery-jumpstart">
+        <div class="service-quick-icon">
+          <!-- Battery Icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="16" height="12" rx="2"></rect>
+            <line x1="22" y1="11" x2="22" y2="15"></line>
+            <line x1="7" y1="13" x2="9" y2="13"></line>
+            <line x1="13" y1="13" x2="15" y2="13"></line>
+            <line x1="14" y1="12" x2="14" y2="14"></line>
+          </svg>
+        </div>
+        <div class="service-quick-title">Battery Jump-Start</div>
+        <div class="service-quick-price">from Rs 350</div>
+      </div>
+
+      <div class="service-quick-card" data-category="vehicle-towing">
+        <div class="service-quick-icon">
+          <!-- Tow Truck Icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+            <circle cx="7" cy="18" r="2"></circle>
+            <circle cx="17" cy="18" r="2"></circle>
+          </svg>
+        </div>
+        <div class="service-quick-title">Vehicle Towing</div>
+        <div class="service-quick-price">from Rs 800</div>
+      </div>
+
+      <div class="service-quick-card" data-category="car-mechanic">
+        <div class="service-quick-icon">
+          <!-- Wrench Icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+          </svg>
+        </div>
+        <div class="service-quick-title">Car Mechanic</div>
+        <div class="service-quick-price">from Rs 500</div>
+      </div>
+
+      <div class="service-quick-card" data-category="bike-mechanic">
+        <div class="service-quick-icon">
+          <!-- Bike/Motorcycle Icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5.5" cy="17.5" r="3.5"></circle>
+            <circle cx="18.5" cy="17.5" r="3.5"></circle>
+            <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5L9 6H4"></path>
+            <path d="M12 17.5V14l-3-3 4-3 2 3h4"></path>
+          </svg>
+        </div>
+        <div class="service-quick-title">Bike Mechanic</div>
+        <div class="service-quick-price">from Rs 300</div>
+      </div>
+    </section>
+
+    <!-- Registered providers nearby -->
+    <section class="home-bottom-grid">
+      <div class="section-card">
+        <div class="section-header-row">
+          <h3 class="section-title">Nearby Providers</h3>
+          <a href="#providers" class="section-link" data-view="providers">View All Providers →</a>
+        </div>
+        <div class="nearby-providers-row"></div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- =========================================================================
+       VIEW 2: FIND PROVIDERS (Matches Right Pane of Reference Image)
+       ========================================================================= -->
+  <main class="main-wrapper app-view" id="view-providers" style="display: none;">
+    <div class="find-providers-view">
+      
+      <!-- Sub-header Bar -->
+      <div class="find-subbar">
+        <div class="find-subbar-left">
+          <button class="btn-back-crumb" data-view="home">‹</button>
+          <div class="find-crumb-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+              <circle cx="7" cy="18" r="2"></circle>
+              <circle cx="17" cy="18" r="2"></circle>
+            </svg>
+          </div>
+          <h2 class="find-heading-title" id="find-subbar-title">Vehicle Towing near your location</h2>
+          <span class="find-meta-pill" id="providers-count-meta">0 providers in range</span>
+        </div>
+
+        <div class="find-view-toggles">
+          <button class="btn-view-toggle active" id="btn-provider-list-view" type="button" aria-pressed="true">☰ List</button>
+          <button class="btn-view-toggle" id="btn-provider-map-view" type="button" aria-pressed="false">🗺 Map</button>
+        </div>
+      </div>
+
+      <!-- 3-Column Layout: Filter Sidebar (240px) | Provider Cards Grid | Interactive Map -->
+      <div class="find-layout-grid">
+        
+        <!-- Filters Sidebar -->
+        <aside class="filter-sidebar">
+          <div class="filter-group">
+            <label class="filter-label" for="filter-category-select">Service category</label>
+            <select id="filter-category-select" class="filter-select">
+              <option value="all" selected>All Services</option>
+              <option value="vehicle-towing">Vehicle Towing</option>
+              <option value="puncture-repair">Puncture Repair</option>
+              <option value="battery-jumpstart">Battery Jump-Start</option>
+              <option value="car-mechanic">Car Mechanic</option>
+              <option value="bike-mechanic">Bike Mechanic</option>
+              <option value="battery-replacement">Battery Replacement</option>
+              <option value="spare-parts">Spare Parts Delivery</option>
+              <option value="emergency-assistance">Emergency Vehicle Assistance</option>
+              <option value="authorized-fuel">Authorized Fuel</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-checkbox-label">
+              <input type="checkbox" id="filter-available-check">
+              <span>Available now</span>
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-checkbox-label">
+              <input type="checkbox" id="filter-rating-check">
+              <span>Rating 4.5 and up</span>
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">Price range</label>
+            <input type="range" id="filter-price-slider" class="price-range-slider" min="500" max="100000" step="100" value="100000">
+            <div class="price-slider-values">
+              <span id="price-slider-display">Rs 500 - Rs 100,000</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-checkbox-label">
+              <input type="checkbox" id="filter-verified-check">
+              <span>Verified only</span>
+            </label>
+          </div>
+
+          <button type="button" class="btn-apply-filters" id="btn-apply-filters">Apply Filters</button>
+          <a class="btn-clear-filters" id="btn-clear-filters">Clear All</a>
+        </aside>
+
+        <!-- Provider Results Grid (2 Columns, 6 Cards) -->
+        <div class="provider-results-grid" id="providers-results-grid">
+          <!-- Dynamically populated from JS -->
+        </div>
+
+        <!-- Interactive Map Column -->
+        <div class="find-map-column">
+          <div class="map-header-bar">
+            <span id="providers-map-location">Detecting your location...</span>
+            <span style="color: var(--primary-orange); font-size: 11px;">● Providers within 20 km</span>
+          </div>
+          <div class="map-viewport" id="find-providers-map-canvas">
+            <!-- Rendered by Leaflet -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+
+  <!-- =========================================================================
+       VIEW 3: LIVE TRACKING & EXECUTION VIEW
+       ========================================================================= -->
+  <main class="main-wrapper app-view" id="view-track" style="display: none;">
+    <div class="tracking-view-container">
+      <div id="tracking-empty-state" class="section-card">
+        <h2 class="section-title">No active bookings</h2>
+        <p style="margin-top: 8px; color: var(--text-muted);">Your roadside assistance bookings will appear here.</p>
+      </div>
+
+      <!-- Tracking Top Stepper -->
+      <div class="tracking-header-card" id="tracking-header-card" hidden>
+        <div style="width: 100%;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div>
+              <span style="font-size: 13px; color: var(--text-muted);">Active Service Dispatch</span>
+              <h2 id="track-booking-title" style="font-family: var(--font-serif); font-size: 22px; font-weight: 800; color: #111827;"></h2>
+            </div>
+                <span id="track-status-badge" style="background: var(--primary-orange-light); color: var(--primary-orange); font-weight: 700; padding: 6px 14px; border-radius: 20px; font-size: 13px;"></span>
+          </div>
+
+          <!-- Progress Stepper -->
+          <div class="tracking-stepper">
+            <div class="stepper-node" data-step="PENDING">
+              <div class="stepper-circle">1</div>
+              <span class="stepper-node-text">Requested</span>
+              <div class="stepper-line"></div>
+            </div>
+            <div class="stepper-node" data-step="ACCEPTED">
+              <div class="stepper-circle">2</div>
+              <span class="stepper-node-text">Accepted</span>
+              <div class="stepper-line"></div>
+            </div>
+            <div class="stepper-node" data-step="PROVIDER_EN_ROUTE">
+              <div class="stepper-circle">3</div>
+              <span class="stepper-node-text">En Route</span>
+              <div class="stepper-line"></div>
+            </div>
+            <div class="stepper-node" data-step="ARRIVED">
+              <div class="stepper-circle">4</div>
+              <span class="stepper-node-text">Arrived</span>
+              <div class="stepper-line"></div>
+            </div>
+            <div class="stepper-node" data-step="IN_PROGRESS">
+              <div class="stepper-circle">5</div>
+              <span class="stepper-node-text">In Progress</span>
+              <div class="stepper-line"></div>
+            </div>
+            <div class="stepper-node" data-step="COMPLETED">
+              <div class="stepper-circle">6</div>
+              <span class="stepper-node-text">Completed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Tracking Grid -->
+      <div class="tracking-main-grid" id="tracking-main-grid" hidden>
+        
+        <!-- Live Route Map -->
+        <div class="tracking-map-column">
+          <div class="tracking-live-location-status" id="track-live-location-status" role="status" aria-live="polite">
+            Live route updates will appear when the provider starts driving.
+          </div>
+          <div class="tracking-map-box" id="tracking-map-canvas">
+            <!-- Rendered via Leaflet -->
+          </div>
+        </div>
+
+        <!-- Sidebar Info Column -->
+        <div class="tracking-sidebar-column">
+          
+          <!-- Assigned Provider Card -->
+          <div class="info-card">
+            <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 14px;">
+              <div style="width: 54px; height: 54px; border-radius: 10px; overflow: hidden; background: #eee;">
+                <img id="track-provider-image" alt="Service provider" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div>
+                <h4 id="track-provider-name" style="font-size: 16px; font-weight: 800; color: #111827;"></h4>
+                <div id="track-provider-rating" style="font-size: 13px; color: #F59E0B; font-weight: 600;"></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <a id="btn-call-provider" href="#" aria-disabled="true" style="flex: 1; background: #111827; color: #fff; padding: 9px; border-radius: 8px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;">
+                📞 Call Driver
+              </a>
+              <button onclick="document.getElementById('chat-msg-input').focus();" style="flex: 1; background: var(--primary-orange-light); color: var(--primary-orange); padding: 9px; border-radius: 8px; font-size: 13px; font-weight: 600;">
+                💬 Message
+              </button>
+            </div>
+            <p id="track-provider-phone" style="margin-top: 8px; color: #64748B; font-size: 12px;" aria-live="polite"></p>
+          </div>
+
+          <!-- Service OTP Badge (Crucial Marketplace Security) -->
+          <div class="otp-display-badge">
+            <div>
+              <div style="font-size: 11px; font-weight: 700; color: #92400E; text-transform: uppercase;">Service Completion OTP</div>
+              <div style="font-size: 12px; color: #B45309;">Share only after mechanic finishes repair:</div>
+            </div>
+            <div class="otp-digits" id="track-otp-display"></div>
+          </div>
+
+          <!-- Price & Transparent Invoice Card -->
+          <div class="info-card">
+            <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px;">Fare Breakdown & Invoice</h4>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
+              <span style="color: #6B7280;">Service Charge:</span>
+              <span id="track-service-charge" style="font-weight: 600;"></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
+              <span style="color: #6B7280;">Platform Convenience Fee:</span>
+              <span id="track-platform-fee" style="font-weight: 600;"></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px;">
+              <span style="color: #6B7280;">GST (18% on convenience fee):</span>
+              <span id="track-gst" style="font-weight: 600;"></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px;">
+              <span style="color: #6B7280;">Provider credit commission (<span id="track-commission-rate">6%</span>):</span>
+              <span id="track-commission" style="font-weight: 600;"></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 800; border-top: 1px solid #E5E7EB; padding-top: 10px; color: #111827;">
+              <span>Booking Total:</span>
+              <span id="track-total" style="color: var(--primary-orange);"></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-top: 10px;">
+              <span style="color: #6B7280;">Payment method:</span>
+              <strong id="track-payment-status">UNPAID</strong>
+            </div>
+            <p id="track-payment-note" style="margin-top: 8px; color: #92400E; font-size: 12px;">
+              Pay the provider directly using their UPI ID. ResQ Wheels does not collect customer payments.
+            </p>
+            <p id="track-provider-upi" style="font-size: 12px; color: #374151; margin-top: 6px;"></p>
+            <button type="button" class="btn-apply-filters" id="btn-direct-upi-pay" style="width: 100%; margin-top: 10px;" hidden>
+              Pay provider by UPI
+            </button>
+          </div>
+
+          <!-- In-App Chat Drawer -->
+          <div class="info-card" style="display: flex; flex-direction: column; height: 180px;">
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Direct Driver Chat</div>
+            <div id="chat-messages-container" style="flex: 1; overflow-y: auto; padding: 6px 0;">
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 6px;">
+              <input type="text" id="chat-msg-input" placeholder="Type a message..." style="flex: 1; border: 1px solid #E5E7EB; border-radius: 6px; padding: 6px 10px; font-size: 12px; outline: none;">
+              <button id="btn-send-chat" style="background: var(--primary-orange); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">Send</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- =========================================================================
+       VIEW 4: CUSTOMER DASHBOARD
+       ========================================================================= -->
+  <main class="main-wrapper app-view" id="view-dashboard" style="display: none;">
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      
+      <!-- Welcome Header -->
+      <div class="section-card" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h2 style="font-family: var(--font-serif); font-size: 26px; font-weight: 800;">Welcome back, <span id="dashboard-user-name"></span></h2>
+          <p style="font-size: 14px; color: var(--text-muted);">Manage your registered vehicles, roadside assistance bookings, and invoices.</p>
+        </div>
+        <button class="btn-assistance open-emergency-btn">Emergency Help</button>
+      </div>
+
+      <!-- Saved Vehicles -->
+      <div class="section-card">
+        <h3 class="section-title" style="margin-bottom: 14px;">My Registered Vehicles</h3>
+        <p style="color: var(--text-muted);">No vehicles saved yet.</p>
+      </div>
+
+      <!-- Booking History Table -->
+      <div class="section-card">
+        <h3 class="section-title" style="margin-bottom: 16px;">Past Assistance Bookings</h3>
+        <div style="overflow-x: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Service</th>
+                <th>Provider</th>
+                <th>Location</th>
+                <th>Booking Total</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="customer-bookings-list">
+              <!-- Dynamically populated from JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+  <!-- =========================================================================
+       VIEW 5: SERVICE PROVIDER PORTAL
+       ========================================================================= -->
+  <main class="main-wrapper app-view" id="view-provider" style="display: none;">
+    <div class="provider-portal-container">
+      
+      <!-- Provider Header with Online Toggle -->
+      <div class="provider-header-banner">
+        <div>
+          <div style="font-size: 12px; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px;">Service Provider Portal</div>
+          <h2 id="provider-profile-name" style="font-family: var(--font-serif); font-size: 26px; font-weight: 800; margin-top: 2px;"></h2>
+          <div id="provider-profile-meta" style="font-size: 13px; color: #CBD5E1; margin-top: 4px;"></div>
+        </div>
+
+        <div class="toggle-switch-wrap" id="provider-status-wrap" hidden>
+          <span id="provider-status-label" style="font-weight: 700; font-size: 14px; color: #94A3B8;">Offline</span>
+          <button type="button" class="toggle-slider" id="provider-status-toggle"
+            role="switch" aria-label="Service center availability" aria-checked="false">
+            <div class="toggle-handle"></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="section-card" id="provider-registration-prompt" hidden>
+        <h3 class="section-title">Register your service center</h3>
+        <p style="margin: 8px 0 16px; color: var(--text-muted);">Complete your business details to appear in nearby customer searches.</p>
+        <button type="button" class="btn-apply-filters" onclick="document.getElementById('btn-open-partner-reg').click()">Register Service Center</button>
+      </div>
+
+      <!-- Provider Dashboard Grid -->
+      <div class="provider-dashboard-grid" id="provider-dashboard-grid" hidden>
+        
+        <!-- Left: Active Job & Dispatch Controls -->
+        <div>
+          <div class="section-card" id="provider-booking-overview">
+            <div class="provider-booking-overview-header">
+              <div>
+                <h3 class="section-title">Booking Overview</h3>
+                <p style="margin-top: 6px; color: var(--text-muted);">A quick view of your customer bookings and completed work.</p>
+              </div>
+              <div class="provider-booking-actions">
+                <button type="button" class="btn-apply-filters" id="btn-open-provider-emergency-inbox">Check emergency requests</button>
+                <button type="button" class="btn-apply-filters" id="btn-refresh-provider-bookings">Refresh jobs</button>
+              </div>
+            </div>
+            <div class="provider-booking-summary" id="provider-booking-summary" aria-live="polite"></div>
+          </div>
+
+          <!-- Current Active Job Detail & Transition Buttons -->
+          <div class="section-card">
+            <h3 class="section-title" style="margin-bottom: 14px;">Current Active Job</h3>
+            <div id="provider-active-job-details">No active jobs.</div>
+          </div>
+        </div>
+
+        <!-- Right: Earnings & Settlements -->
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="section-card">
+            <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 8px;">Commission credits</h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Virtual credits are not money and cannot be withdrawn or transferred. Credits are deducted only after a completed service.</p>
+            <div id="provider-credit-summary" aria-live="polite">Loading credit balance...</div>
+            <form id="provider-upi-form" style="display: flex; gap: 8px; margin-top: 12px;">
+              <input id="provider-upi-id" type="text" required maxlength="100" placeholder="Provider UPI ID" aria-label="Provider UPI ID" style="flex: 1; min-width: 0; border: 1px solid #D1D5DB; border-radius: 6px; padding: 8px 10px;">
+              <button type="submit" class="btn-apply-filters">Save UPI</button>
+            </form>
+            <form id="provider-credit-deposit-form" style="display: grid; gap: 8px; margin-top: 14px;">
+              <label for="provider-credit-amount" style="font-size: 12px; font-weight: 700;">Recharge credits (minimum Rs 200)</label>
+              <input id="provider-credit-amount" type="number" min="200" step="1" required placeholder="Amount in Rs" style="border: 1px solid #D1D5DB; border-radius: 6px; padding: 8px 10px;">
+              <p id="provider-admin-upi-note" style="font-size: 12px; color: var(--text-muted); margin: 0;"></p>
+              <label for="provider-credit-utr" style="font-size: 12px; font-weight: 700;">Transfer UTR / reference number</label>
+              <input id="provider-credit-utr" type="text" minlength="6" maxlength="50" required placeholder="Enter UTR from your payment receipt" style="border: 1px solid #D1D5DB; border-radius: 6px; padding: 8px 10px;">
+              <label for="provider-credit-screenshot" style="font-size: 12px; font-weight: 700;">Payment screenshot (JPEG, PNG, or WebP; up to 3 MB)</label>
+              <input id="provider-credit-screenshot" type="file" accept="image/jpeg,image/png,image/webp" required>
+              <button type="submit" class="btn-apply-filters">Submit deposit for admin review</button>
+            </form>
+            <div id="provider-credit-deposits" style="margin-top: 14px;"></div>
+            <div id="provider-credit-history" style="margin-top: 14px;"></div>
+          </div>
+
+          <div class="section-card">
+            <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">Customer payments</h4>
+            <p style="font-size: 12px; color: var(--text-muted);">Customers pay your saved UPI ID directly. ResQ Wheels does not receive or hold customer payments.</p>
+          </div>
+
+          <div class="section-card">
+            <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">Service Center Details</h4>
+            <div style="font-size: 12px; color: #4B5563; line-height: 1.6;">
+              <div>Service Address: <strong id="provider-address-display">Not registered</strong></div>
+            </div>
+            <button type="button" id="btn-update-provider-location" style="margin-top: 10px; border: 1px solid #FED7AA; color: #C2410C; background: #FFF7ED; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 700;">Update service-center pin from GPS</button>
+          </div>
+
+          <div class="section-card">
+            <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">Unregister service center</h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Your provider account stays active, but this service center will be removed from customer searches. You can register it again later.</p>
+            <button type="button" id="btn-unregister-provider" style="border: 1px solid #FECACA; color: #B91C1C; background: #FEF2F2; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 700;">Unregister service center</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+
+  <!-- =========================================================================
+       VIEW 6: ADMIN DASHBOARD (Platform Owner)
+       ========================================================================= -->
+  <main class="main-wrapper app-view" id="view-admin" style="display: none;">
+    <div class="admin-view-container">
+      
+      <!-- Top Title -->
+      <div>
+        <h2 style="font-family: var(--font-serif); font-size: 28px; font-weight: 800; color: #111827;">
+          Platform Administration & Operations
+        </h2>
+        <p style="font-size: 14px; color: var(--text-muted);">
+          Monitor roadside bookings, provider credit balances, manual deposits, and statutory compliance.
+        </p>
+      </div>
+
+      <!-- KPI Metrics -->
+      <div class="admin-kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-title">Registered Customers</span>
+          <span class="kpi-value" id="admin-stat-customers">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Registered Service Providers</span>
+          <span class="kpi-value" id="admin-stat-providers">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Gross Merchandise Value (GMV)</span>
+          <span class="kpi-value" id="admin-stat-gmv" style="color: var(--primary-orange);">Rs 0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Provider Credits Balance</span>
+          <span class="kpi-value" id="admin-stat-revenue" style="color: #059669;">Rs 0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Commission Credits Deducted</span>
+          <span class="kpi-value" id="admin-stat-commission" style="color: #059669;">Rs 0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Reserved Credits</span>
+          <span class="kpi-value" id="admin-stat-reserved-credits" style="color: #2563EB;">Rs 0</span>
+        </div>
+      </div>
+
+      <!-- Authorized Fuel Assistance Compliance Note -->
+      <div style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 10px; padding: 16px 20px; display: flex; gap: 14px; align-items: flex-start;">
+        <span style="font-size: 22px;">⚖️</span>
+        <div style="font-size: 13px; color: #92400E; line-height: 1.5;">
+          <strong>Statutory Compliance Guardrail:</strong> ResQ Wheels strictly prohibits unauthorized petrol transportation by individuals.
+          Fuel assistance is permitted only through legally authorized and certified safety operators using PESO-approved portable containers.
+        </div>
+      </div>
+
+      <section class="section-card" aria-labelledby="admin-credit-title">
+        <h3 class="section-title" id="admin-credit-title">Virtual commission credit management</h3>
+        <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0 16px;">Credits are non-withdrawable virtual balances. Approve deposits only after checking the UTR and screenshot.</p>
+        <form id="admin-credit-config-form" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin-bottom: 18px;">
+          <label style="display: grid; gap: 5px; font-size: 12px; font-weight: 700;">Commission percentage
+            <input id="admin-credit-commission-rate" type="number" min="0" max="100" step="0.1" required style="border: 1px solid #D1D5DB; border-radius: 6px; padding: 8px 10px;">
+          </label>
+          <label style="display: grid; gap: 5px; font-size: 12px; font-weight: 700;">Admin UPI ID
+            <input id="admin-credit-upi-id" type="text" maxlength="100" required style="border: 1px solid #D1D5DB; border-radius: 6px; padding: 8px 10px;">
+          </label>
+          <button type="submit" class="btn-apply-filters">Save credit settings</button>
+        </form>
+        <h4 style="font-size: 14px; margin-bottom: 8px;">Provider balances and adjustments</h4>
+        <div id="admin-credit-providers" class="credit-admin-table-wrap"></div>
+        <h4 style="font-size: 14px; margin: 18px 0 8px;">Deposit verification queue</h4>
+        <div id="admin-credit-deposits" class="credit-admin-table-wrap"></div>
+        <h4 style="font-size: 14px; margin: 18px 0 8px;">Credit transaction history</h4>
+        <div id="admin-credit-transactions" class="credit-admin-table-wrap"></div>
+      </section>
+
+    </div>
+  </main>
+
+
+  <!-- =========================================================================
+       EMERGENCY ASSISTANCE MODAL (Exact Pixel-Match to Screenshot 1)
+       ========================================================================= -->
+  <div class="modal-overlay" id="emergency-modal">
+    <div class="emergency-modal-card">
+      
+      <!-- Modal Header -->
+      <div class="modal-header-row">
+        <div class="modal-header-left">
+          <button type="button" class="btn-modal-close" id="btn-close-emergency-modal">✕</button>
+          <h2 class="modal-title">Emergency Assistance</h2>
+        </div>
+
+        <div class="modal-step-indicator">
+          <span class="step-label">Step 2 of 3</span>
+          <div class="step-bars">
+            <div class="step-bar active"></div>
+            <div class="step-bar active"></div>
+            <div class="step-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two-Column Form Grid -->
+      <div class="modal-form-grid">
+        
+        <!-- Left Column: Vehicle Type & Emergency Category -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          
+          <!-- Vehicle Type Selector -->
+          <div class="form-group-block">
+            <label class="form-label-bold">Vehicle type</label>
+            <div class="selector-tiles-row">
+              <div class="selector-tile vehicle-tile" data-vehicle="Car">
+                <span class="selector-tile-icon">🚗</span>
+                <span>Car</span>
+              </div>
+              <div class="selector-tile vehicle-tile" data-vehicle="Bike">
+                <span class="selector-tile-icon">🏍️</span>
+                <span>Bike</span>
+              </div>
+              <div class="selector-tile vehicle-tile" data-vehicle="Van">
+                <span class="selector-tile-icon">🚐</span>
+                <span>Van</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Emergency Category Selector -->
+          <div class="form-group-block">
+            <label class="form-label-bold">Emergency category</label>
+            <div class="selector-tiles-row">
+              <div class="selector-tile emg-category-tile" data-cat="Flat tyre">
+                <span class="selector-tile-icon">🛞</span>
+                <span>Flat tyre</span>
+              </div>
+              <div class="selector-tile emg-category-tile" data-cat="Battery dead">
+                <span class="selector-tile-icon">🔋</span>
+                <span>Battery dead</span>
+              </div>
+              <div class="selector-tile emg-category-tile" data-cat="Engine breakdown">
+                <span class="selector-tile-icon">⚙️</span>
+                <span>Engine breakdown</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Problem Description & Add Photos -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          
+          <div class="form-group-block">
+            <label class="form-label-bold">Problem description</label>
+            <div class="problem-textarea-wrap">
+              <textarea id="emg-problem-desc" class="problem-textarea" maxlength="500" placeholder="Describe what happened"></textarea>
+              <span class="char-counter" id="char-count">0 / 500</span>
+            </div>
+          </div>
+
+          <div class="form-group-block">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+              <label class="form-label-bold">Add photos of the problem</label>
+              <span style="font-size: 11px; color: #6B7280; background: #F3F4F6; padding: 2px 6px; border-radius: 4px;">Optional</span>
+            </div>
+            <div class="photo-previews-row" id="photo-previews-container">
+              <!-- Upload Tile Button (Empty by default, user uploads optionally) -->
+              <div class="photo-upload-btn-tile" id="btn-upload-photo" title="Click to upload breakdown photos (Optional)">
+                <span style="font-size: 16px;">🖼️</span>
+                <span>Upload photo</span>
+              </div>
+              <input type="file" id="photo-file-input" accept="image/*" multiple style="display: none;">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Location Shared Banner -->
+      <div class="location-status-banner">
+        <div class="loc-banner-left">
+          <span>✓</span>
+          <span>Your location is shared with nearby providers only while the request is open</span>
+        </div>
+        <button type="button" class="btn-adjust-pin" id="btn-adjust-pin">
+          <span>↗</span> Adjust pin
+        </button>
+      </div>
+
+      <p style="font-size: 12px; color: #475569; margin: 12px 0 6px;">Nearby registered provider locations within 20 km are shown on the map.</p>
+      <div class="modal-map-viewport" id="emergency-modal-map">
+        <!-- Rendered by Leaflet -->
+      </div>
+
+      <!-- Urgency Selector -->
+      <div class="form-group-block">
+        <label class="form-label-bold">Urgency</label>
+        <div class="urgency-pills-row">
+          <div class="urgency-pill active" data-urgency="Urgent now">
+            <span style="color: var(--primary-orange);">⚡</span>
+            <span>Urgent now</span>
+          </div>
+          <div class="urgency-pill" data-urgency="Within 1 hour">
+            <span>🕒</span>
+            <span>Within 1 hour</span>
+          </div>
+          <div class="urgency-pill" data-urgency="Scheduled">
+            <span>📅</span>
+            <span>Scheduled</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full-Width Safety Orange Action Button -->
+      <button type="button" class="btn-send-emergency" id="btn-send-emergency">
+        Send emergency request
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- Radar Broadcast Animation Overlay -->
+  <div class="modal-overlay" id="broadcast-overlay">
+    <div style="background: #fff; border-radius: 16px; padding: 40px; text-align: center; max-width: 440px; width: 90%; box-shadow: var(--shadow-modal);">
+      <div style="width: 72px; height: 72px; border-radius: 50%; background: var(--primary-orange-light); color: var(--primary-orange); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; animation: pulseCard 1.2s infinite ease-in-out;">
+        📡
+      </div>
+      <h3 style="font-family: var(--font-serif); font-size: 22px; font-weight: 800; margin-bottom: 8px;">Broadcasting Emergency</h3>
+      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
+        Sending your request to registered service providers near your location...
+      </p>
+      <div style="font-size: 12px; color: var(--primary-orange); font-weight: 700;">Receiving nearby quotations...</div>
+    </div>
+  </div>
+
+
+  <!-- Incoming Quotes Comparison Modal -->
+  <div class="modal-overlay" id="quotes-modal">
+    <div style="background: #fff; border-radius: 16px; padding: 28px 32px; max-width: 580px; width: 90%; box-shadow: var(--shadow-modal);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div>
+          <h3 style="font-family: var(--font-serif); font-size: 22px; font-weight: 800;">Provider Offers</h3>
+          <p style="font-size: 13px; color: var(--text-muted);">Quotes from registered service providers will appear here.</p>
+        </div>
+        <button id="btn-close-quotes-modal" style="font-size: 16px; color: #9CA3AF;">✕</button>
+      </div>
+
+      <div id="incoming-quotes-list">
+        <!-- Dynamically populated from JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="provider-emergency-inbox">
+    <div class="provider-emergency-inbox-card" role="dialog" aria-modal="true" aria-labelledby="provider-emergency-inbox-title">
+      <div class="provider-emergency-inbox-header">
+        <div>
+          <h3 class="section-title" id="provider-emergency-inbox-title">Emergency request inbox</h3>
+          <p>Review nearby customer requests and send a quote when you can help.</p>
+        </div>
+        <button type="button" id="btn-close-provider-emergency-inbox" aria-label="Close emergency request inbox">✕</button>
+      </div>
+      <div id="provider-emergency-inbox-list" aria-live="polite"></div>
+    </div>
+  </div>
+
+
+  <!-- Service Center / Partner Self-Registration Modal -->
+  <div class="modal-overlay" id="partner-reg-modal">
+    <div style="background: #FFF; border-radius: 16px; padding: 28px 36px; max-width: 640px; width: 92%; max-height: 92vh; overflow-y: auto; box-shadow: var(--shadow-modal); position: relative;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #F1F5F9; padding-bottom: 14px;">
+        <div>
+          <span style="font-size: 11px; font-weight: 700; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 0.5px;">Service Provider Onboarding</span>
+          <h3 style="font-family: var(--font-serif); font-size: 24px; font-weight: 800; color: #111827; margin-top: 2px;">Register Your Service Center / Workshop</h3>
+        </div>
+        <button type="button" onclick="document.getElementById('partner-reg-modal').classList.remove('active')" style="width: 32px; height: 32px; border: 1px solid #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #6B7280;">✕</button>
+      </div>
+
+      <form id="partner-registration-form" style="display: flex; flex-direction: column; gap: 16px;">
+        <div id="provider-service-registration-fields" style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 6px;">Workshop / Business Name *</label>
+            <input type="text" id="reg-business-name" required placeholder="Enter your registered business name" style="width: 100%; border: 1px solid #D1D5DB; border-radius: 8px; padding: 9px 12px; font-size: 13px; outline: none;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 6px;">Starting fee (Rs) *</label>
+            <input type="number" id="reg-price" required min="1" step="1" placeholder="Enter your starting fee" style="width: 100%; border: 1px solid #D1D5DB; border-radius: 8px; padding: 9px 12px; font-size: 13px; outline: none;">
+          </div>
+        </div>
+
+        <div>
+          <label for="reg-phone" style="display: block; font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 6px;">Service contact phone number *</label>
+          <input type="tel" id="reg-phone" required minlength="8" maxlength="30" autocomplete="tel" placeholder="Enter the phone number customers can call" style="width: 100%; border: 1px solid #D1D5DB; border-radius: 8px; padding: 9px 12px; font-size: 13px; outline: none;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 6px;">Primary Service Category *</label>
+          <select id="reg-category" style="width: 100%; border: 1px solid #D1D5DB; border-radius: 8px; padding: 9px 12px; font-size: 13px; outline: none; background: #fff;">
+            <option value="vehicle-towing">Vehicle Towing & Recovery Fleet</option>
+            <option value="car-mechanic">Car Mechanic & Engine Diagnostics</option>
+            <option value="puncture-repair">Puncture Repair & Tyre Assistance</option>
+            <option value="battery-jumpstart">Battery Jump-Start & Replacement</option>
+            <option value="bike-mechanic">Bike & 2-Wheeler Roadside Repair</option>
+            <option value="battery-replacement">Battery Replacement</option>
+            <option value="spare-parts">Spare Parts Delivery</option>
+            <option value="emergency-assistance">Emergency Vehicle Assistance</option>
+            <option value="authorized-fuel">Authorized Fuel Assistance (PESO Certified)</option>
+          </select>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="font-size: 13px; font-weight: 700; color: #111827;">Service Center Location / Address *</label>
+            <div style="display: flex; gap: 6px;">
+              <button type="button" id="btn-geocode-workshop-address" style="font-size: 12px; font-weight: 600; color: var(--primary-orange); background: var(--primary-orange-light); border: 1px solid var(--primary-orange-border); padding: 3px 8px; border-radius: 6px; cursor: pointer;">
+                Find address on map
+              </button>
+              <button type="button" id="btn-detect-workshop-gps" style="font-size: 12px; font-weight: 600; color: var(--primary-orange); background: var(--primary-orange-light); border: 1px solid var(--primary-orange-border); padding: 3px 8px; border-radius: 6px; cursor: pointer;">
+                📍 Use GPS
+              </button>
+            </div>
+          </div>
+          <input type="text" id="reg-address" required placeholder="Enter the service center address" style="width: 100%; border: 1px solid #D1D5DB; border-radius: 8px; padding: 9px 12px; font-size: 13px; outline: none;">
+          <input type="hidden" id="reg-lat">
+          <input type="hidden" id="reg-lng">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 6px;">Account contact</label>
+          <input type="text" value="Your registered account" readonly style="width: 100%; border: 1px solid #D1D5DB; border-radius: 8px; padding: 9px 12px; font-size: 13px; outline: none; background: #F8FAFC;">
+        </div>
+        </div>
+
+        <div>
+          <label for="reg-upi-id" style="display: block; font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 6px;">Provider UPI ID *</label>
+          <input type="text" id="reg-upi-id" required maxlength="100" autocomplete="off" placeholder="name@bank" style="width: 100%; border: 1px solid #D1D5DB; border-radius: 8px; padding: 9px 12px; font-size: 13px; outline: none;">
+          <small style="display: block; color: var(--text-muted); margin-top: 5px;">Customers pay this UPI ID directly. ResQ Wheels does not collect their payment.</small>
+        </div>
+
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; font-size: 12px; color: #475569; display: flex; gap: 10px; align-items: flex-start;">
+          <input type="checkbox" id="reg-agreement" required style="accent-color: var(--primary-orange); margin-top: 3px;">
+          <label for="reg-agreement">
+            I confirm that the service-center information and UPI ID are accurate. Virtual commission credits are not withdrawable.
+            <span id="provider-commission-rate" style="display: block; margin-top: 4px; font-weight: 700;">Loading current commission settings...</span>
+          </label>
+        </div>
+
+        <button type="submit" style="background: var(--primary-orange); color: #FFF; font-weight: 700; font-size: 15px; padding: 12px; border-radius: 8px; cursor: pointer; border: none; box-shadow: 0 2px 6px rgba(255, 90, 31, 0.3);">
+          <span id="provider-registration-submit-label">Register Service Center</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay location-picker-modal" id="provider-location-picker">
+    <div class="location-picker-card" role="dialog" aria-modal="true" aria-labelledby="provider-location-picker-title">
+      <div class="location-picker-header">
+        <div>
+          <h3 id="provider-location-picker-title">Choose service center location</h3>
+          <p>Click the map to place a pin, then confirm the address.</p>
+        </div>
+        <button type="button" class="location-picker-close" id="btn-close-location-picker" aria-label="Close map">✕</button>
+      </div>
+      <div id="provider-location-picker-map" class="location-picker-map" role="application" aria-label="Map for choosing a service center location"></div>
+      <div class="location-picker-footer">
+        <p id="provider-location-picker-address" aria-live="polite">Click the map to choose a location.</p>
+        <div>
+          <button type="button" class="location-picker-cancel" id="btn-cancel-location-picker">Cancel</button>
+          <button type="button" class="location-picker-confirm" id="btn-confirm-location-picker" disabled>Use this address</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="provider-completion-modal">
+    <div class="direct-booking-card provider-completion-card" role="dialog" aria-modal="true" aria-labelledby="provider-completion-title">
+      <div class="location-picker-header">
+        <div>
+          <h3 id="provider-completion-title">Verify service completion</h3>
+          <p>Enter the 4-digit OTP shared by the customer after the repair is finished.</p>
+        </div>
+        <button type="button" class="location-picker-close" id="btn-close-provider-completion" aria-label="Close OTP form">✕</button>
+      </div>
+      <form id="provider-completion-form">
+        <label class="direct-booking-field" for="provider-completion-otp">
+          Customer completion OTP
+          <input type="text" id="provider-completion-otp" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{4}" maxlength="4" required>
+        </label>
+        <div class="direct-booking-actions">
+          <button type="button" class="location-picker-cancel" id="btn-cancel-provider-completion">Cancel</button>
+          <button type="submit" class="location-picker-confirm" id="btn-submit-provider-completion">Verify OTP &amp; Complete</button>
+        </div>
+        <p id="provider-completion-error" class="provider-completion-error" role="status" hidden></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="provider-unregister-modal">
+    <div class="direct-booking-card provider-completion-card" role="dialog" aria-modal="true" aria-labelledby="provider-unregister-title">
+      <div class="location-picker-header">
+        <div>
+          <h3 id="provider-unregister-title">Unregister service center?</h3>
+          <p>Your service center will no longer appear in customer searches. Your provider account will remain active.</p>
+        </div>
+        <button type="button" class="location-picker-close" id="btn-close-provider-unregister" aria-label="Close confirmation">✕</button>
+      </div>
+      <div class="direct-booking-actions">
+        <button type="button" class="location-picker-cancel" id="btn-cancel-provider-unregister">Keep service center</button>
+        <button type="button" class="location-picker-confirm" id="btn-confirm-provider-unregister">Unregister</button>
+      </div>
+      <p id="provider-unregister-error" class="provider-completion-error" role="status" hidden></p>
+    </div>
+  </div>
+
+  <div class="modal-overlay direct-booking-modal" id="direct-booking-modal">
+    <div class="direct-booking-card" role="dialog" aria-modal="true" aria-labelledby="direct-booking-title">
+      <div class="location-picker-header">
+        <div>
+          <h3 id="direct-booking-title">Book this service center</h3>
+          <p id="direct-booking-provider"></p>
+        </div>
+        <button type="button" class="location-picker-close" id="btn-close-direct-booking" aria-label="Close booking form">✕</button>
+      </div>
+      <form id="direct-booking-form">
+        <label class="direct-booking-field" for="direct-booking-vehicle">
+          Vehicle details
+          <input type="text" id="direct-booking-vehicle" required maxlength="120" placeholder="For example, red Honda City">
+        </label>
+        <div class="direct-booking-location">
+          <strong>Pickup location</strong>
+          <p id="direct-booking-location"></p>
+        </div>
+        <p class="direct-booking-price">Service price: <strong id="direct-booking-price"></strong></p>
+        <div class="direct-booking-actions">
+          <button type="button" class="location-picker-cancel" id="btn-cancel-direct-booking">Cancel</button>
+          <button type="submit" class="location-picker-confirm" id="btn-submit-direct-booking">Confirm booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="brand-logo" style="color: #fff; margin-bottom: 14px;">
+          <div class="brand-icon-box" style="background: var(--primary-orange); color: #fff;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+              <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+              <circle cx="7" cy="18" r="2"></circle>
+              <circle cx="17" cy="18" r="2"></circle>
+            </svg>
+          </div>
+          <span>ResQ Wheels</span>
+        </div>
+        <p style="font-size: 13px; line-height: 1.6; color: #9CA3AF;">
+          Connecting motorists with registered roadside service providers.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Popular Services</h4>
+        <ul class="footer-links">
+          <li><a href="#services" data-view="providers">Vehicle Towing & Flatbed</a></li>
+          <li><a href="#services" data-view="providers">Puncture & Air Assist</a></li>
+          <li><a href="#services" data-view="providers">Battery Jump-Start</a></li>
+          <li><a href="#services" data-view="providers">Engine Breakdown Triage</a></li>
+          <li><a href="#services" data-view="providers">Authorized Fuel Delivery</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Marketplace Portals</h4>
+        <ul class="footer-links">
+          <li data-role-only="user"><a href="#customer" onclick="setPlatformRole('customer')">Customer Portal</a></li>
+          <li data-role-only="provider"><a href="#provider" onclick="setPlatformRole('provider')">Service Partner Portal</a></li>
+          <li data-role-only="admin"><a href="#admin" onclick="setPlatformRole('admin')">Platform Administration</a></li>
+          <li><a href="#safety">Safety information</a></li>
+          <li><a href="#pricing">Transparent Pricing</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Service support</h4>
+        <p style="font-size: 12px; color: #9CA3AF; line-height: 1.5;">
+          <a href="https://wa.me/919404819359" target="_blank" rel="noopener noreferrer">Chat with ResQ Wheels support on WhatsApp</a>.
+          For an active booking, you can also contact your service provider directly.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <div>© 2026 ResQ Wheels.</div>
+      <div>Use roadside services responsibly and follow local safety requirements.</div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
